@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+'use client'
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [userlist , setUserList] = useState([]);
+
+useEffect(() => {
+    axios.get('https://61m2wrb52b.execute-api.eu-north-1.amazonaws.com/dev/media')
+    .then(res =>{
+      console.log(res);
+      setUserList(res.data)
+    }).catch(err => {
+      console.error(err);
+    })
+}, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="flex min-h-screen flex-col p-24">
+      {userlist.map((data, index) => (
+         <h1 key={index}> full name : {data.full_name} --------------------------------------- with username :{data.username}</h1>
+      ))}
+    </main>
   );
 }
 
